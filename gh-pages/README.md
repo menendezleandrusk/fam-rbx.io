@@ -70,14 +70,14 @@ Una vez activo tu enlace de GitHub Pages, configúralo en tu aplicación de Disc
 1. Ve a **[Discord Developer Portal](https://discord.com/developers/applications)** y entra en tu Bot (`1539391208411889676`).
 2. En **General Information**:
    - **TERMS OF SERVICE URL:**  
-     `https://TU-USUARIO.github.io/TU-REPOSITORIO/terms/`
+     `https://menendezleandrusk.github.io/fam-rbx.io/terms/`
    - **PRIVACY POLICY URL:**  
-     `https://TU-USUARIO.github.io/TU-REPOSITORIO/privacy/`
+     `https://menendezleandrusk.github.io/fam-rbx.io/privacy/`
    - Haz clic en **Save Changes**.
 3. En la pestaña **OAuth2 ➡️ General**:
    - En la sección **Redirects**, haz clic en **Add Redirect**.
    - Pega tu URL de GitHub Pages exacta:  
-     `https://TU-USUARIO.github.io/TU-REPOSITORIO/`
+     `https://menendezleandrusk.github.io/fam-rbx.io/`
    - Haz clic en **Save Changes**.
 
 ---

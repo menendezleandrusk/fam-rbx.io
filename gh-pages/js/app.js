@@ -73,14 +73,54 @@ document.addEventListener("DOMContentLoaded", () => {
   setupOAuthCalculator();
   renderRecentDiplomas();
 
-  // Comprobar si hay un folio en la URL (?folio=FAM-CERT-...)
+  // Comprobar parámetros en la URL (OAuth Callback o Consulta de Diploma)
   const urlParams = new URLSearchParams(window.location.search);
-  const requestedFolio = urlParams.get("folio") || urlParams.get("code");
-  if (requestedFolio) {
-    document.getElementById("cert-search-input").value = requestedFolio;
+  const codeParam = urlParams.get("code");
+  const folioParam = urlParams.get("folio");
+
+  if (codeParam && !codeParam.toUpperCase().startsWith("FAM-")) {
+    // Es un código de autorización recibido de Discord OAuth2!
+    handleDiscordOAuthReturn(codeParam);
+  } else if (folioParam || (codeParam && codeParam.toUpperCase().startsWith("FAM-"))) {
+    const requestedFolio = folioParam || codeParam;
+    const input = document.getElementById("cert-search-input");
+    if (input) input.value = requestedFolio;
     verifyDiploma(requestedFolio);
   }
 });
+
+// MANEJO DE RETORNO OAUTH2 DE DISCORD
+function handleDiscordOAuthReturn(authCode) {
+  const resultContainer = document.getElementById("search-result-container");
+  if (!resultContainer) return;
+
+  resultContainer.innerHTML = `
+    <div style="background: rgba(16, 185, 129, 0.12); border: 2px solid #10b981; border-radius: 12px; padding: 24px; text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <span style="font-size: 28px;">🎖️</span>
+        <div>
+          <h4 style="color: #34d399; font-size: 1.15rem; font-weight: 800; margin: 0;">¡Autorización de Discord Exitosa!</h4>
+          <span style="font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">VINCULACIÓN DE USUARIO (INTEGRATION_TYPE=1)</span>
+        </div>
+      </div>
+      <p style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 14px;">
+        Tu cuenta de Discord ha autorizado correctamente la integración con la <strong>Fuerza Aérea Mexicana (FAM Ro-Army)</strong> con permisos de comandos y vinculación de roles (<code>role_connections.write</code>).
+      </p>
+      <div style="background: rgba(2, 6, 23, 0.8); border: 1px solid #1e293b; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 0.8rem; color: #38bdf8; word-break: break-all; margin-bottom: 16px;">
+        <strong>Código OAuth2 Recibido:</strong><br>
+        ${escapeHtml(authCode)}
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button onclick="navigator.clipboard.writeText('${escapeHtml(authCode)}'); alert('Código de autorización copiado.');" class="btn btn-primary" style="font-size: 0.8rem; padding: 6px 14px;">
+          📋 Copiar Código
+        </button>
+        <button onclick="window.history.replaceState({}, document.title, window.location.pathname); location.reload();" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px;">
+          Continuar al Portal
+        </button>
+      </div>
+    </div>
+  `;
+}
 
 // NAVEGACIÓN POR PESTAÑAS
 function setupTabs() {
