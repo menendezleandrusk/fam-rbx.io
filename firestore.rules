@@ -1,0 +1,109 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 1. Default-deny global safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Health check / Connection test endpoint
+    match /test/{testId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidDiploma(data) {
+      return data.id is string && data.id.size() >= 3 && data.id.size() <= 64 && data.id.matches('^[a-zA-Z0-9_\\-]+$') &&
+        data.cadetRoblox is string && data.cadetRoblox.size() >= 3 && data.cadetRoblox.size() <= 30 && data.cadetRoblox.matches('^[a-zA-Z0-9_]+$') &&
+        data.cadetDiscordTag is string && data.cadetDiscordTag.size() <= 64 &&
+        data.rank is string && data.rank.size() >= 2 && data.rank.size() <= 100 &&
+        data.course is string && data.course.size() >= 3 && data.course.size() <= 150 &&
+        data.issueDate is string && data.issueDate.size() <= 30 &&
+        data.instructorName is string && data.instructorName.size() <= 100 &&
+        data.instructorRank is string && data.instructorRank.size() <= 100 &&
+        data.status in ['VALID', 'REVOKED'] &&
+        data.qrData is string && data.qrData.size() <= 300 &&
+        (!('notes' in data) || (data.notes is string && data.notes.size() <= 500)) &&
+        (!('cadetDiscordId' in data) || (data.cadetDiscordId is string && data.cadetDiscordId.size() <= 32)) &&
+        (!('instructorDiscordTag' in data) || (data.instructorDiscordTag is string && data.instructorDiscordTag.size() <= 64)) &&
+        (!('baseLocation' in data) || (data.baseLocation is string && data.baseLocation.size() <= 120)) &&
+        (!('createdAt' in data) || (data.createdAt is string && data.createdAt.size() <= 50));
+    }
+
+    function isValidVerificationLog(data) {
+      return data.id is string && data.id.size() <= 64 &&
+        data.diplomaId is string && data.diplomaId.size() <= 64 &&
+        data.code is string && data.code.size() <= 64 &&
+        data.verifiedAt is string && data.verifiedAt.size() <= 50 &&
+        data.isValid is bool &&
+        (!('verifierUser' in data) || (data.verifierUser is string && data.verifierUser.size() <= 64)) &&
+        (!('ipHash' in data) || (data.ipHash is string && data.ipHash.size() <= 64));
+    }
+
+    function isValidGuildConfig(data) {
+      return data.guildId is string && data.guildId.size() <= 32 && data.guildId.matches('^[0-9]+$') &&
+        data.guildName is string && data.guildName.size() <= 100 &&
+        data.officialLogChannelId is string && data.officialLogChannelId.size() <= 32 &&
+        data.instructorRoleId is string && data.instructorRoleId.size() <= 32 &&
+        (!('embedColorHex' in data) || (data.embedColorHex is string && data.embedColorHex.size() <= 10)) &&
+        (!('prefix' in data) || (data.prefix is string && data.prefix.size() <= 5)) &&
+        (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 50));
+    }
+
+    // 3. Diplomas Collection (Colección de Diplomas Oficiales)
+    match /diplomas/{diplomaId} {
+      allow get: if isValidId(diplomaId);
+      allow list: if true;
+      allow create: if isValidId(diplomaId) &&
+        isValidDiploma(incoming()) &&
+        incoming().keys().hasAll(['id', 'cadetRoblox', 'cadetDiscordTag', 'rank', 'course', 'issueDate', 'instructorName', 'instructorRank', 'status', 'qrData']) &&
+        incoming().keys().hasOnly(['id', 'cadetRoblox', 'cadetDiscordId', 'cadetDiscordTag', 'rank', 'course', 'notes', 'issueDate', 'instructorName', 'instructorRank', 'instructorDiscordTag', 'baseLocation', 'status', 'qrData', 'createdAt']);
+      
+      allow update: if isValidId(diplomaId) &&
+        isValidDiploma(incoming()) &&
+        incoming().id == existing().id &&
+        incoming().cadetRoblox == existing().cadetRoblox &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['status', 'notes']);
+
+      allow delete: if false; // Los diplomas militares son inmutables e históricos
+    }
+
+    // 4. Verification Logs (Bitácora de Verificación de Diplomas)
+    match /verification_logs/{logId} {
+      allow get, list: if true;
+      allow create: if isValidId(logId) &&
+        isValidVerificationLog(incoming()) &&
+        incoming().keys().hasAll(['id', 'diplomaId', 'code', 'verifiedAt', 'isValid']) &&
+        incoming().keys().hasOnly(['id', 'diplomaId', 'code', 'verifiedAt', 'verifierUser', 'isValid', 'ipHash']);
+      allow update, delete: if false;
+    }
+
+    // 5. Guild Configs (Configuración de Servidores de Discord)
+    match /server_configs/{guildId} {
+      allow get, list: if true;
+      allow create, update: if isValidId(guildId) &&
+        isValidGuildConfig(incoming()) &&
+        incoming().keys().hasAll(['guildId', 'guildName', 'officialLogChannelId', 'instructorRoleId']) &&
+        incoming().keys().hasOnly(['guildId', 'guildName', 'officialLogChannelId', 'instructorRoleId', 'embedColorHex', 'prefix', 'updatedAt']);
+      allow delete: if false;
+    }
+  }
+}

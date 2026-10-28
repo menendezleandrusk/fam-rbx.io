@@ -1,0 +1,6 @@
+{
+  "name": "FAM Bot - Fuerza Aérea Mexicana",
+  "description": "Bot todo en uno de Discord para Roblox Ro-Army: Embed Generator, Moderación Dyno/Carl style, Expedición de Diplomas OAuth2 y Registros.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

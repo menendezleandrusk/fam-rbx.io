@@ -1,0 +1,214 @@
+{
+  "entities": {
+    "DiplomaRecord": {
+      "title": "Diploma Record",
+      "description": "Certificado y diploma militar oficial de la Fuerza Aérea Mexicana",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Identificador o folio militar único del diploma (ej. FAM-CERT-2026-9A81B)"
+        },
+        "cadetRoblox": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 30,
+          "pattern": "^[a-zA-Z0-9_]+$",
+          "description": "Nombre de usuario oficial en Roblox del cadete o piloto"
+        },
+        "cadetDiscordId": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "ID numérico de Discord del cadete"
+        },
+        "cadetDiscordTag": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Tag o identificador de Discord del cadete"
+        },
+        "rank": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "Rango o jerarquía militar concedida"
+        },
+        "course": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 150,
+          "description": "Curso o adiestramiento especializado militar cursado"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Anotaciones de honor o méritos de servicio"
+        },
+        "issueDate": {
+          "type": "string",
+          "maxLength": 30,
+          "description": "Fecha de expedición oficial en formato ISO o YYYY-MM-DD"
+        },
+        "instructorName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Nombre de guerra o firma del Oficial Instructor expedidor"
+        },
+        "instructorRank": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Rango institucional del instructor militar"
+        },
+        "instructorDiscordTag": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Usuario de Discord del instructor expedidor"
+        },
+        "baseLocation": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Base Aérea Militar de expedición"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["VALID", "REVOKED"],
+          "description": "Estado oficial del certificado: VALID o REVOKED"
+        },
+        "qrData": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Enlace de verificación criptográfica incrustado en el código QR"
+        },
+        "createdAt": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Marca de tiempo ISO del momento de registro"
+        }
+      },
+      "required": [
+        "id",
+        "cadetRoblox",
+        "cadetDiscordTag",
+        "rank",
+        "course",
+        "issueDate",
+        "instructorName",
+        "instructorRank",
+        "status",
+        "qrData"
+      ]
+    },
+    "VerificationLog": {
+      "title": "Verification Log",
+      "description": "Registro de auditoría de consultas y escaneos de diplomas",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Identificador único del registro de verificación"
+        },
+        "diplomaId": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Folio militar consultado"
+        },
+        "code": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Término de búsqueda o código QR escaneado"
+        },
+        "verifiedAt": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Marca de tiempo de la consulta"
+        },
+        "verifierUser": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Usuario militar o visitante que consultó el folio"
+        },
+        "isValid": {
+          "type": "boolean",
+          "description": "Resultado de la verificación de autenticidad"
+        },
+        "ipHash": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Hash anónimo para prevención de abuso y ataques DoS"
+        }
+      },
+      "required": [
+        "id",
+        "diplomaId",
+        "code",
+        "verifiedAt",
+        "isValid"
+      ]
+    },
+    "GuildConfig": {
+      "title": "Guild Configuration",
+      "description": "Ajustes de servidor de Discord de la FAM y roles de comando",
+      "type": "object",
+      "properties": {
+        "guildId": {
+          "type": "string",
+          "maxLength": 32,
+          "pattern": "^[0-9]+$",
+          "description": "Identificador Snowflake de Discord del servidor"
+        },
+        "guildName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Nombre de la guarnición militar o servidor de Discord"
+        },
+        "officialLogChannelId": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "ID del canal de registros de diplomas"
+        },
+        "instructorRoleId": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "ID del rol de Oficial Instructor con acceso privilegiado"
+        },
+        "embedColorHex": {
+          "type": "string",
+          "maxLength": 10,
+          "description": "Color institucional primario en formato hexadecimal"
+        },
+        "prefix": {
+          "type": "string",
+          "maxLength": 5,
+          "description": "Prefijo militar del bot"
+        },
+        "updatedAt": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Última fecha de actualización de la configuración"
+        }
+      },
+      "required": [
+        "guildId",
+        "guildName",
+        "officialLogChannelId",
+        "instructorRoleId"
+      ]
+    }
+  },
+  "firestore": {
+    "/diplomas/{diplomaId}": {
+      "schema": "DiplomaRecord",
+      "description": "Colección de certificados militares y diplomas emitidos por la Fuerza Aérea Mexicana"
+    },
+    "/verification_logs/{logId}": {
+      "schema": "VerificationLog",
+      "description": "Bitácora histórica de verificaciones de diplomas realizadas"
+    },
+    "/server_configs/{guildId}": {
+      "schema": "GuildConfig",
+      "description": "Configuración de canales y roles por servidor de Discord"
+    }
+  }
+}
