@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fuerza Aérea Mexicana — Sistema Oficial de Diplomas y Verificación</title>
+  <meta name="description" content="Portal de Roleplay Militar Ro-Army de la Fuerza Aérea Mexicana (FAM). Verificación y expedición de diplomas militares.">
+  <link rel="icon" href="https://raw.githubusercontent.com/FAM-Roblox/assets/main/fam_emblem.png" type="image/png">
+  <link rel="stylesheet" href="./css/fam-styles.css">
+</head>
+<body>
+
+  <!-- NAVBAR MILITAR -->
+  <header class="navbar">
+    <div class="container">
+      <a href="./" class="nav-brand">
+        <img src="https://raw.githubusercontent.com/FAM-Roblox/assets/main/fam_emblem.png" alt="Escudo FAM" class="nav-logo">
+        <div class="nav-titles">
+          <h1>FUERZA AÉREA MEXICANA</h1>
+          <span>SISTEMA DE DIPLOMAS & BOT DE DISCORD</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><span class="nav-link active tab-btn" data-tab="tab-search">Consultar Diplomas</span></li>
+          <li><span class="nav-link tab-btn" data-tab="tab-expedite">Expedición</span></li>
+          <li><span class="nav-link tab-btn" data-tab="tab-oauth">Configurar OAuth2</span></li>
+          <li><a href="./terms/" class="nav-link">Términos</a></li>
+          <li><a href="./privacy/" class="nav-link">Privacidad</a></li>
+          <li>
+            <a href="https://discord.com/oauth2/authorize?client_id=1539391208411889676&response_type=code&scope=identify+guilds.members.read" 
+               id="nav-discord-btn" class="btn btn-discord" target="_blank" rel="noopener">
+              Iniciar Sesión con Discord
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO PRINCIPAL -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span>✈️ Fuerza Aérea Mexicana • Roblox Ro-Army</span>
+      </div>
+      <h2>Sistema Criptográfico de Certificación Aeronáutica</h2>
+      <p>
+        Plataforma oficial para la emisión, firma y validación de diplomas militares, cursos tácticos de vuelo y condecoraciones para efectivos y cadetes de la FAM en Roblox.
+      </p>
+
+      <!-- BOTONES DE PESTAÑAS RÁPIDAS -->
+      <div class="tabs-nav">
+        <button class="tab-btn active" data-tab="tab-search">🔍 Consulta y Verificación</button>
+        <button class="tab-btn" data-tab="tab-expedite">🎖️ Expedición de Instructores</button>
+        <button class="tab-btn" data-tab="tab-oauth">⚙️ Integración Discord OAuth2</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENIDO DE PESTAÑAS -->
+  <main class="container" style="margin-bottom: 60px;">
+
+    <!-- PESTAÑA 1: CONSULTA Y VERIFICACIÓN -->
+    <div id="tab-search" class="tab-content active">
+      <div class="search-card">
+        <h3 style="font-size: 1.15rem; color: #ffffff; margin-bottom: 8px;">Validar Folio Militar o Cadete</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+          Ingresa el folio del diploma (ej. <code>FAM-CERT-2026-9A81B</code>) o el usuario de Roblox del efectivo para consultar la validez.
+        </p>
+
+        <div class="search-box">
+          <input type="text" id="cert-search-input" class="search-input" placeholder="Ejemplo: FAM-CERT-2026-9A81B o Roblox_Cadete_Alpha">
+          <button id="search-btn" class="btn btn-primary">Verificar Folio</button>
+        </div>
+
+        <!-- RESULTADO DE LA BÚSQUEDA -->
+        <div id="search-result-container" style="margin-top: 20px;"></div>
+      </div>
+
+      <!-- DIPLOMAS RECIENTES -->
+      <div style="max-width: 680px; margin: 30px auto 0;">
+        <h4 style="font-size: 0.95rem; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;">
+          Últimas Certificaciones Registradas
+        </h4>
+        <div id="recent-diplomas-list"></div>
+      </div>
+    </div>
+
+    <!-- PESTAÑA 2: EXPEDICIÓN DE DIPLOMAS (INSTRUCTORES) -->
+    <div id="tab-expedite" class="tab-content">
+      <div class="form-card">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 18px;">
+          <div style="font-size: 24px;">🎖️</div>
+          <div>
+            <h3 style="font-size: 1.2rem; color: #ffffff;">Expedir Nuevo Diploma Militar</h3>
+            <span style="font-size: 0.78rem; color: var(--emerald-fam); font-weight: 700;">PANEL DE OFICIALES E INSTRUCTORES AUTORIZADOS</span>
+          </div>
+        </div>
+
+        <form id="expedite-form">
+          <div class="form-group">
+            <label for="form-cadet">Nombre de Usuario en Roblox (Cadete)</label>
+            <input type="text" id="form-cadet" class="form-control" placeholder="Ej: Piloto_Cadete_MX" required>
+          </div>
+
+          <div class="form-group">
+            <label for="form-rank">Rango Concedido</label>
+            <input type="text" id="form-rank" class="form-control" placeholder="Ej: Subteniente C.P.A." value="Subteniente C.P.A.">
+          </div>
+
+          <div class="form-group">
+            <label for="form-course">Curso o Especialidad Acreditada</label>
+            <input type="text" id="form-course" class="form-control" placeholder="Ej: Piloto Aviador de Caza y Combate (F-5E Tiger II)" required>
+          </div>
+
+          <div class="form-group">
+            <label for="form-instructor">Oficial Instructor Responsable</label>
+            <input type="text" id="form-instructor" class="form-control" placeholder="Ej: Coronel Rafael G. Ordóñez" value="Coronel de Fuerza Aérea C.P.A.">
+          </div>
+
+          <div class="form-group">
+            <label for="form-notes">Observaciones Militares / Menciones de Honor</label>
+            <textarea id="form-notes" class="form-control" rows="3" placeholder="Ej: Aprobación satisfactoria de las pruebas de combate aéreo y navegación diurna."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">
+            Emitir y Firmar Certificado Criptográfico
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- PESTAÑA 3: CONFIGURADOR DISCORD OAUTH2 GITHUB PAGES -->
+    <div id="tab-oauth" class="tab-content">
+      <div class="form-card">
+        <h3 style="font-size: 1.2rem; color: #ffffff; margin-bottom: 8px;">Configurador de Enlace OAuth2 para GitHub Pages</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">
+          Para que el botón de inicio de sesión con Discord funcione desde tu repositorio en GitHub Pages, genera tu enlace personalizado y regístralo en el <strong>Discord Developer Portal</strong>.
+        </p>
+
+        <div class="form-group">
+          <label for="oauth-client-id">Discord Client ID</label>
+          <input type="text" id="oauth-client-id" class="form-control" value="1539391208411889676">
+        </div>
+
+        <div class="form-group">
+          <label for="oauth-redirect-uri">Tu URL de GitHub Pages (Redirect URI)</label>
+          <input type="text" id="oauth-redirect-uri" class="form-control" placeholder="https://tu-usuario.github.io/tu-repositorio/">
+        </div>
+
+        <div style="background: rgba(2, 6, 23, 0.8); border: 1px solid #1e293b; border-radius: 8px; padding: 16px; margin: 20px 0;">
+          <small style="display: block; font-size: 0.75rem; color: var(--emerald-fam); font-weight: 700; margin-bottom: 6px;">
+            ENLACE DE AUTORIZACIÓN GENERADO:
+          </small>
+          <a id="oauth-generated-link" href="#" target="_blank" style="color: var(--sky-fam); word-break: break-all; font-size: 0.82rem; font-family: monospace;"></a>
+        </div>
+
+        <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--emerald-fam); padding: 14px; font-size: 0.82rem; color: #cbd5e1;">
+          <strong>Paso en Discord:</strong> Copia la <code>Redirect URI</code> que ingresaste arriba y agrégala en <strong>OAuth2 ➡️ Redirects</strong> dentro de tu aplicación en Discord Developer Portal.
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="footer">
+    <div class="container">
+      <p style="font-weight: 700; color: #e2e8f0; margin-bottom: 6px;">
+        FUERZA AÉREA MEXICANA — SISTEMA WEB Y BOT DE DISCORD (ROBLOX RO-ARMY)
+      </p>
+      <div class="footer-links">
+        <a href="./terms/">Términos de Servicio (/terms/)</a>
+        <span>·</span>
+        <a href="./privacy/">Política de Privacidad (/privacy/)</a>
+        <span>·</span>
+        <a href="https://discord.com" target="_blank" rel="noopener">Discord Developer Portal</a>
+      </div>
+      <p style="font-size: 0.75rem; color: #64748b; max-width: 650px; margin: 0 auto;">
+        Aviso de Roleplay: Herramienta comunitaria y de gestión militar privada para la Fuerza Aérea Mexicana en Roblox. No existe afiliación gubernamental o militar con la SEDENA oficial.
+      </p>
+    </div>
+  </footer>
+
+  <script src="./js/app.js"></script>
+</body>
+</html>

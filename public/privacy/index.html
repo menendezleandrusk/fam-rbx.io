@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidad — Fuerza Aérea Mexicana (FAM)</title>
+    <meta name="description" content="Política de Privacidad y Tratamiento de Datos del Bot y Portal Militar de la FAM en Roblox.">
+    <link rel="icon" href="https://raw.githubusercontent.com/FAM-Roblox/assets/main/fam_emblem.png" type="image/png">
+    <style>
+        :root {
+            --bg-main: #050811;
+            --bg-card: #0c1322;
+            --bg-subtle: #111a2e;
+            --border: #1e293b;
+            --border-accent: #059669;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --emerald: #10b981;
+            --emerald-light: #34d399;
+            --emerald-glow: rgba(16, 185, 129, 0.15);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.65;
+            padding: 32px 16px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 820px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(180deg, rgba(16, 185, 129, 0.12) 0%, rgba(12, 19, 34, 0.95) 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 32px 28px 24px;
+        }
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: #022c22;
+            border: 1px solid var(--emerald);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 12px var(--emerald-glow);
+        }
+        .brand-text h1 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .brand-text span {
+            font-size: 0.72rem;
+            color: var(--emerald-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--emerald-light);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .title-block h2 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+        .title-block p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+        }
+        .meta-strip {
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            gap: 20px;
+            font-size: 0.78rem;
+            color: #64748b;
+            flex-wrap: wrap;
+        }
+        .content {
+            padding: 32px 28px;
+        }
+        .section {
+            margin-bottom: 28px;
+        }
+        .section-title {
+            font-size: 1.12rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section p, .section li {
+            color: #cbd5e1;
+            font-size: 0.92rem;
+            margin-bottom: 10px;
+        }
+        .section ul {
+            padding-left: 20px;
+            margin-bottom: 12px;
+        }
+        .section li {
+            margin-bottom: 6px;
+        }
+        .callout {
+            background: var(--bg-subtle);
+            border-left: 4px solid var(--emerald);
+            padding: 14px 18px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+            font-size: 0.88rem;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 0.85rem;
+        }
+        .table th, .table td {
+            padding: 10px 14px;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+        .table th {
+            background: var(--bg-subtle);
+            color: #f8fafc;
+        }
+        .table td {
+            color: #cbd5e1;
+        }
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.84rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .btn-primary {
+            background: var(--emerald);
+            color: #022c22;
+        }
+        .btn-primary:hover {
+            background: var(--emerald-light);
+        }
+        .btn-secondary {
+            background: var(--bg-subtle);
+            color: #e2e8f0;
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover {
+            border-color: #475569;
+            background: #17223b;
+        }
+        .footer {
+            background: #080d18;
+            border-top: 1px solid var(--border);
+            padding: 20px 28px;
+            text-align: center;
+            font-size: 0.78rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <div class="brand">
+                    <div class="brand-icon">✈️</div>
+                    <div class="brand-text">
+                        <h1>Fuerza Aérea Mexicana</h1>
+                        <span>Sistema Militar Roblox Ro-Army</span>
+                    </div>
+                </div>
+                <div class="badge">Legal • Privacidad DevSecOps</div>
+            </div>
+            <div class="title-block">
+                <h2>Política de Privacidad</h2>
+                <p>Tratamiento seguro de datos de Discord y registros militares para la FAM Ro-Army.</p>
+            </div>
+            <div class="meta-strip">
+                <span>Última Actualización: <strong>28 de Octubre, 2026</strong></span>
+                <span>Versión: <strong>2.0.0 DevSecOps</strong></span>
+                <span>Alojamiento: <strong>GitHub Pages Estático & Discord Platform</strong></span>
+            </div>
+        </header>
+
+        <main class="content">
+            <article>
+                <section class="section">
+                    <h3 class="section-title">1. Compromiso con la Privacidad y Principio de Minimización</h3>
+                    <p>La <strong>Fuerza Aérea Mexicana (FAM Ro-Army)</strong> trata únicamente la información técnica y comunitaria estrictamente indispensable para autenticar instructores y verificar diplomas militares.</p>
+                    <div class="callout">
+                        <strong>Garantía Absoluta:</strong> No recopilamos contraseñas, correos electrónicos personales, datos de pago ni números de teléfono. Jamás vendemos, comercializamos ni transferimos información a terceras partes.
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h3 class="section-title">2. Datos Recopilados y Finalidades Específicas</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Origen</th>
+                                <th>Datos Tratados</th>
+                                <th>Finalidad Operativa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Discord OAuth2</strong></td>
+                                <td>ID de Usuario, Nombre y Avatar público.</td>
+                                <td>Identificar al instructor y registrar autoría en diplomas.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Servidor Discord</strong></td>
+                                <td>Roles en el servidor militar oficial.</td>
+                                <td>Validar en tiempo real si el usuario tiene rango de Instructor Oficial.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Expedición de Diplomas</strong></td>
+                                <td>Nombre en Roblox del cadete, curso, rango y fecha.</td>
+                                <td>Generar certificados criptográficos públicos con folio (<code>FAM-XXXX</code>).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="section">
+                    <h3 class="section-title">3. Seguridad Técnica</h3>
+                    <p>En el uso de GitHub Pages y APIs externas:</p>
+                    <ul>
+                        <li>Las consultas son de sólo lectura y no exponen secretos ni tokens de bots.</li>
+                        <li>El código fuente es 100% auditable y abierto en el repositorio.</li>
+                        <li>Las sesiones en navegadores utilizan almacenamiento local seguro o cookies protegidas.</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h3 class="section-title">4. Retención y Control de Datos</h3>
+                    <p>Los usuarios pueden solicitar la rectificación o anulación de certificados comunicándose directamente a través del servidor oficial de Discord de la FAM.</p>
+                </section>
+            </article>
+
+            <div class="actions">
+                <a href="../" class="btn btn-primary">← Volver al Portal Principal</a>
+                <a href="../terms/" class="btn btn-secondary">Ver Términos de Servicio →</a>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p><strong>Aviso Comunitario:</strong> Sistema de gestión y roleplay militar privado de la Fuerza Aérea Mexicana en Roblox. Alojado en GitHub Pages.</p>
+        </footer>
+    </div>
+</body>
+</html>

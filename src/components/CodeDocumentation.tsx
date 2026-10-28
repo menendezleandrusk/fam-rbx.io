@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FileCode2, Copy, Check, Server, Key, Database, Bot, Terminal, ShieldCheck } from 'lucide-react';
 
 export const CodeDocumentation: React.FC = () => {
-  const [activeFile, setActiveFile] = useState<'database' | 'auth' | 'main' | 'bot' | 'guild_config'>('database');
+  const [activeFile, setActiveFile] = useState<'database' | 'auth' | 'main' | 'bot' | 'guild_config' | 'github_pages'>('database');
   const [copiedCode, setCopiedCode] = useState(false);
 
   const databasePy = `# ==============================================================================
@@ -839,12 +839,48 @@ def update_guild_settings(guild_id: str, guild_name: str, **kwargs) -> Dict[str,
 init_guild_settings_table()
 `;
 
+  const githubPagesGuide = `# ==============================================================================
+# GUÍA DE DESPLIEGUE EN GITHUB PAGES — FUERZA AÉREA MEXICANA (FAM)
+# Estructura 100% Estática lista para alojamiento gratuito en GitHub
+# ==============================================================================
+
+# 1. ESTRUCTURA DE ARCHIVOS PARA EL REPOSITORIO
+# Puedes copiar el contenido de la carpeta /gh-pages/ a la raíz de tu repositorio:
+# ├── index.html              <- Portal principal (Consulta, Expedición y OAuth2)
+# ├── css/
+# │   └── fam-styles.css      <- Estilos militares oficiales de la FAM
+# ├── js/
+# │   └── app.js              <- Lógica cliente y persistencia LocalStorage
+# ├── terms/
+# │   └── index.html          <- Términos de Servicio (https://tu-usuario.github.io/tu-repo/terms/)
+# ├── privacy/
+# │   └── index.html          <- Política de Privacidad (https://tu-usuario.github.io/tu-repo/privacy/)
+# └── README.md               <- Documentación de despliegue
+
+# 2. COMANDOS GIT PARA SUBIR A GITHUB:
+# git init
+# git add .
+# git commit -m "feat: Despliegue estático FAM Ro-Army para GitHub Pages"
+# git branch -M main
+# git remote add origin https://github.com/TU-USUARIO/TU-REPOSITORIO.git
+# git push -u origin main
+
+# 3. ACTIVAR EN GITHUB:
+# Repositorio -> Settings -> Pages -> Branch: main -> Folder: / (root) -> Save
+
+# 4. CONFIGURAR EN DISCORD DEVELOPER PORTAL:
+# - TERMS OF SERVICE URL: https://TU-USUARIO.github.io/TU-REPOSITORIO/terms/
+# - PRIVACY POLICY URL:   https://TU-USUARIO.github.io/TU-REPOSITORIO/privacy/
+# - OAUTH2 REDIRECT URI:  https://TU-USUARIO.github.io/TU-REPOSITORIO/
+`;
+
   const filesMap = {
     database: { name: 'database.py', desc: 'Manejo seguro de datos SQLite parametrizada', code: databasePy },
     auth: { name: 'auth.py', desc: 'Discord OAuth2, JWT HttpOnly y Guardias de Seguridad', code: authPy },
     main: { name: 'main.py', desc: 'Rutas Web FastAPI con sanitización Pydantic y Webhooks', code: mainPy },
     bot: { name: 'bot.py', desc: 'Bot de Discord con Slash Commands y Sincronización', code: botPy },
     guild_config: { name: 'guild_config.py', desc: 'Panel Multi-Servidor y Ajustes por Guild', code: guildConfigPy },
+    github_pages: { name: 'GitHub Pages (Estructura y Guía)', desc: 'Despliegue estático gratuito, carpetas /terms/, /privacy/ y README', code: githubPagesGuide },
   };
 
   const handleCopy = (code: string) => {
@@ -936,6 +972,18 @@ init_guild_settings_table()
             >
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>5. guild_config.py</span>
+            </button>
+
+            <button
+              onClick={() => setActiveFile('github_pages')}
+              className={`flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-lg border transition-all ${
+                activeFile === 'github_pages'
+                  ? 'bg-emerald-950 text-emerald-300 border-emerald-600 shadow-sm'
+                  : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
+              }`}
+            >
+              <Terminal className="w-3.5 h-3.5" />
+              <span>6. GitHub Pages</span>
             </button>
           </div>
 
